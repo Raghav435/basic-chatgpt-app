@@ -3,6 +3,7 @@ const bodyParser = require("body-parser");
 const cors = require("cors");
 const app = express();
 app.use(bodyParser.json());
+require("dotenv").config();
 app.use(cors());
 app.use(express.json());
 app.use(
@@ -15,7 +16,7 @@ const port = 3080;
 const { Configuration, OpenAIApi } = require("openai");
 const configuration = new Configuration({
   organization: "org-hkYpSk723NpWDAXX12axtMIh",
-  apiKey: "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",
+  apiKey: process.env.apiKey,
 });
 const openai = new OpenAIApi(configuration);
 
@@ -28,7 +29,7 @@ callApi();
 app.post("/", async (req, res) => {
   const { message, currentModel } = req.body;
   const response = await openai.createCompletion({
-    model: `${currentModel}`,//"text-davinci-003",
+    model: `${currentModel}`, //"text-davinci-003",
     prompt: `${message}`,
     max_tokens: 100,
     temperature: 0.5,
